@@ -61,7 +61,7 @@ export default function SimpleCard(props) {
         }
       </CardContent>
       <CardActions>
-        <Button size="small">Checkout</Button>
+        <Button onClick={() => props.handleCheckout(props.user)} size="small">Checkout</Button>
       </CardActions>
     </Card>
   );
