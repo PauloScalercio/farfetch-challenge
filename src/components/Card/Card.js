@@ -90,6 +90,7 @@ const Card = (props) => {
         }
       </CardContent>
       <CardActions>
+
         <Button onClick={() => props.handleCheckout(props.user)}>Checkout</Button>
         <Button onClick={handleOpen} >Edit</Button>
         <Modal

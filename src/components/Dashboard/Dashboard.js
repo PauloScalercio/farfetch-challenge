@@ -11,9 +11,10 @@ export default class Dashboard extends React.Component {
     }
   }
 
+
   handleCheckout = (user) => {
    ApiService.CheckoutUser(user)
-    .then(res => this.setState({users: this.state.users.filter(item => item.id !== user.id)}))
+    .then(res => this.setState({users: this.state.users.filter(item => item.id !== user.id)}));
     
   }
 

@@ -12,7 +12,7 @@ const ApiService = {
         body: JSON.stringify(payload),
         headers : {'content-type' : 'application/json'}
     })
-
+    ,
     
 }
 export default ApiService;
