@@ -1,11 +1,15 @@
-import React, {Fragment} from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
+import CardUi from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
-import { omit, pick } from 'lodash';
+import { pick, isEmpty } from 'lodash';
+
+import composeP from '../../utils/functional';
+
+import Button from '../Button';
+import Field from '../Field';
+import Modal from '../Modal'
 
 const useStyles = makeStyles({
   card: {
@@ -24,10 +28,9 @@ const useStyles = makeStyles({
   },
 });
 const validate = user => {
-  // const validatedUser = Object.keys(user).map(item => !!user[item] ? user[item] : 'Inexistente');
   const validatedUser = Object.fromEntries(
     Object.entries(user)
-      .map(([k, v]) => v != null ? [k, v] : [k, 'Empty'])
+      .map(([k, v]) => isEmpty(v) ? [k, 'Empty'] : [k, v])
       .map(([k, v]) => (typeof v === "object" ? [k, validate(v)] : [k, v]))
   );
   return validatedUser
@@ -38,50 +41,75 @@ const mapUsersToModel = (user) => {
     ...pick(user, ['email']),
     postalCodeAndCity: `${user.postalCode} / ${user.city}`,
     ...pick(user, ['country'])
-
-    
   }
 }
 
-export default function SimpleCard(props) {
+const Card = (props) => {
   const classes = useStyles();
   const mappedUser = mapUsersToModel(validate(props.user));
 
+  const [editModalEnabled, setEditModalEnabled] = React.useState(false);
+
+  const handleOpen = () => {
+    setEditModalEnabled(true);
+  }
+  const handleClose = () => {
+    setEditModalEnabled(false);
+  }
+
+  const generateFieldsBasedOnUserTemplate = (user) => {
+    return Object.keys(user).map( entry => (
+      <Field key={entry} field={entry} user={user} editable={editModalEnabled} disabled={user[entry] === user.id ? true : false}></Field>
+  ))
+  }
+
+  const handleSubmitAndClose = composeP(
+    handleClose,
+    user => props.handleUpdateUser(user),
+    e => handleSubmit(e),
+  );
+
+  const handleSubmit = e => {
+    e.preventDefault();
+    return {
+      id: e.target.id.value,
+      email: e.target.email.value,
+      firstName: e.target.firstName.value,
+      lastName: e.target.lastName.value,
+      postalCode: e.target.postalCode.value,
+      city: e.target.city.value,
+      country: e.target.country.value,
+    }
+  }
 
   return (
-    <Card className={classes.card}>
+    <CardUi className={classes.card}>
       <CardContent>
-        {
-            Object.keys(mappedUser).map( entry => (
-                <Field key={entry} field={entry} user={mappedUser} />
-            ))
-            /* props.user.map(field => (
-                <Field field={field} user={props.user}/>
-            )) */
+        {  
+          generateFieldsBasedOnUserTemplate(mappedUser)
         }
       </CardContent>
       <CardActions>
-        <Button size="small">Checkout</Button>
+        <Button onClick={() => props.handleCheckout(props.user)}>Checkout</Button>
+        <Button onClick={handleOpen} >Edit</Button>
+        <Modal
+        aria-labelledby="simple-modal-title"
+        aria-describedby="simple-modal-description"
+        open={editModalEnabled}
+        onClose={handleClose}
+      >
+          <h2 id="simple-modal-title">Edit user</h2>
+          <form onSubmit={handleSubmitAndClose} >
+          {        
+            generateFieldsBasedOnUserTemplate(props.user)
+          }
+        <Button type='submit'>Confirm Changes</Button>
+        <Button onClick={handleClose}>Close</Button>
+        </form>
+      </Modal>
       </CardActions>
-    </Card>
+    </CardUi>
   );
 }
 
-function Field(props){
-
-    return (
-        <Fragment>
-        <Typography align="left" color="textSecondary" gutterBottom>
-          {
-              props.field === "postalCodeAndCity" ?  'Postal Code / City' 
-                : props.field === "name" ?  'Name' : props.field
-          }
-        </Typography>
-        <Typography variant="h5" component="h2">
-        {props.user[props.field] }
-        </Typography>
-        </Fragment>
-    )
-}
-
-//SOLVE ORDENATION OF STRINGS IN OBJECT KEY ARRAY (NAME FIRST)
+export default Card;
