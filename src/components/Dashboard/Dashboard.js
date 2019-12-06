@@ -3,7 +3,7 @@ import Grid from '@material-ui/core/Grid';
 import Card from '../Card';
 import ApiService from '../../utils/ApiService';
 import {merge} from 'lodash';
-export default class Dashboard extends React.Component { 
+class Dashboard extends React.Component { 
   constructor() {
     super();
     this.state = {
@@ -43,7 +43,7 @@ export default class Dashboard extends React.Component {
 
     ApiService.ListUsers()
       .then(res => this.setState({ users: res.users }))
-      .then(() => {})//this.connect());
+      .then(() => this.connect());
 
   }
 
@@ -63,3 +63,4 @@ export default class Dashboard extends React.Component {
     );
   }
 }
+export default Dashboard;
