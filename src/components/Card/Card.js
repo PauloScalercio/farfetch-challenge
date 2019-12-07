@@ -83,8 +83,6 @@ const Card = (props) => {
         <Button onClick={() => props.handleCheckout(props.user)}>Checkout</Button>
         <Button onClick={handleOpen} >Edit</Button>
         <Modal
-        aria-labelledby="simple-modal-title"
-        aria-describedby="simple-modal-description"
         open={editModalEnabled}
         onClose={handleClose}
       >
