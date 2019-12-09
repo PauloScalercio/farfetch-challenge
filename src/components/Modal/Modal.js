@@ -31,8 +31,8 @@ const Modal = (props) => {
   return (
     <div>
       <ModalUi
-        aria-labelledby="simple-modal-title"
-        aria-describedby="simple-modal-description"
+        aria-labelledby='simple-modal-title'
+        aria-describedby='simple-modal-description'
         {...props}
       >
         <div className={classes.paper}>

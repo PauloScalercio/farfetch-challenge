@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { shallow, render } from 'enzyme';
 import Card from './index';
 
 describe('Atom - Card', () => {
@@ -7,4 +7,5 @@ describe('Atom - Card', () => {
     const component = <Card />;
     expect(component).toMatchSnapshot();
   });
+
 });

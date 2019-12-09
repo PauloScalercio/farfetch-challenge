@@ -52,7 +52,7 @@ class Dashboard extends React.Component {
     return (
       <Grid container spacing={2}>
         <Grid item xs={12}>
-          <Grid container justify="center" spacing={2}>
+          <Grid container justify='center' spacing={2}>
             { 
             !isEmpty(this.state.users) ?  this.state.users.map(user => (
               <Grid xs={4} key={user.id} item>
