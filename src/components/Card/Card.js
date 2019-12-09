@@ -20,7 +20,7 @@ const validate = user => {
   const validatedUser = Object.fromEntries(
     Object.entries(user)
       .map(([k, v]) => isEmpty(v) ? [k, 'Empty'] : [k, v])
-      .map(([k, v]) => (typeof v === "object" ? [k, validate(v)] : [k, v]))
+      .map(([k, v]) => (typeof v === 'object' ? [k, validate(v)] : [k, v]))
   );
   return validatedUser
 }
@@ -83,12 +83,10 @@ const Card = (props) => {
         <Button onClick={() => props.handleCheckout(props.user)}>Checkout</Button>
         <Button onClick={handleOpen} >Edit</Button>
         <Modal
-        aria-labelledby="simple-modal-title"
-        aria-describedby="simple-modal-description"
         open={editModalEnabled}
         onClose={handleClose}
       >
-          <h2 id="simple-modal-title">Edit user</h2>
+          <h2 id='simple-modal-title'>Edit user</h2>
           <form onSubmit={handleSubmitAndClose} >
           {        
             generateFieldsBasedOnUserTemplate(props.user)

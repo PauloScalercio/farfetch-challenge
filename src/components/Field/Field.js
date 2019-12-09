@@ -13,7 +13,7 @@ const Field = (props) => {
             <Typography align='left' color='textSecondary' gutterBottom>
                 {
                     props.field === 'postalCodeAndCity' ? 'Postal Code / City'
-                        : props.field === "name" ? 'Name' : props.field
+                        : props.field === 'name' ? 'Name' : props.field
                 }
             </Typography>
             { 
