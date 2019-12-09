@@ -4,6 +4,7 @@ import Card from '../Card';
 import ApiService from '../../utils/ApiService';
 import { merge, isEmpty } from 'lodash';
 import { Typography } from '@material-ui/core';
+
 class Dashboard extends React.Component { 
   constructor() {
     super();
@@ -11,8 +12,6 @@ class Dashboard extends React.Component {
       users: [],
     }
   }
-
-
   handleCheckout = (user) => {
    ApiService.CheckoutUser(user)
     .then(res => this.setState({users: this.state.users.filter(item => item.id !== user.id)}));
@@ -62,6 +61,7 @@ class Dashboard extends React.Component {
             :
             <Typography variant='h2'>Nenhum usuário online</Typography>
             }
+
           </Grid>
         </Grid>
       </Grid>
@@ -69,3 +69,4 @@ class Dashboard extends React.Component {
   }
 }
 export default Dashboard;
+
