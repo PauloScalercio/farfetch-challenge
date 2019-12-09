@@ -2,7 +2,8 @@ import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import Card from '../Card';
 import ApiService from '../../utils/ApiService';
-import {merge} from 'lodash';
+import { merge, isEmpty } from 'lodash';
+import { Typography } from '@material-ui/core';
 class Dashboard extends React.Component { 
   constructor() {
     super();
@@ -52,11 +53,15 @@ class Dashboard extends React.Component {
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <Grid container justify="center" spacing={2}>
-            {this.state.users.map(user => (
+            { 
+            !isEmpty(this.state.users) ?  this.state.users.map(user => (
               <Grid xs={4} key={user.id} item>
                 <Card user={user} handleCheckout={this.handleCheckout} handleUpdateUser={this.handleUpdateUser}/>
               </Grid>
-            ))}
+            ))
+            :
+            <Typography variant='h2'>Nenhum usuário online</Typography>
+            }
           </Grid>
         </Grid>
       </Grid>
